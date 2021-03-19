@@ -29,4 +29,4 @@ CONSTRAINT ind_id_pk PRIMARY KEY (id),
 CONSTRAINT ind_mot_fk FOREIGN KEY (motivo) REFERENCES motivo (id),
 CONSTRAINT ind_usu_fk FOREIGN KEY (usuario) REFERENCES usuario (id));
 
--- Memocha ya no hace pato
+-- Memocha en interfaz gráfica
