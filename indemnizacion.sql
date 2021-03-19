@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-03-2021 a las 18:41:49
+-- Tiempo de generación: 19-03-2021 a las 23:40:19
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.31
 
@@ -31,27 +31,28 @@ DROP TABLE IF EXISTS `derecho`;
 CREATE TABLE `derecho` (
   `id` int(11) NOT NULL,
   `derecho` varchar(50) NOT NULL,
-  `motivo` int(11) NOT NULL
+  `motivo` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `derecho`
 --
 
-INSERT INTO `derecho` (`id`, `derecho`, `motivo`) VALUES
-(1, 'Tres meses de salario', 1),
-(2, 'Prima de antiguedad', 1),
-(3, 'Prima vacacional', 1),
-(4, 'Aguinaldo', 1),
-(5, 'Asistencia médica y quirúrgica', 3),
-(6, 'Rehabilitación', 3),
-(7, 'Hospitalización', 3),
-(8, 'Medicamentos y material de curación', 3),
-(9, 'Prótesis', 3),
-(10, 'Parte proporcional de vacaciones', 2),
-(11, 'Parte proporcional de prima vacacional', 2),
-(12, 'Parte proporcional de aguinaldo', 2),
-(13, 'Prima de antiguedad', 2);
+INSERT INTO `derecho` (`id`, `derecho`, `motivo`, `created_at`) VALUES
+(1, 'Tres meses de salario', 1, '2021-03-19 22:33:05'),
+(2, 'Prima de antiguedad', 1, '2021-03-19 22:33:05'),
+(3, 'Prima vacacional', 1, '2021-03-19 22:33:05'),
+(4, 'Aguinaldo', 1, '2021-03-19 22:33:05'),
+(5, 'Asistencia médica y quirúrgica', 3, '2021-03-19 22:33:05'),
+(6, 'Rehabilitación', 3, '2021-03-19 22:33:05'),
+(7, 'Hospitalización', 3, '2021-03-19 22:33:05'),
+(8, 'Medicamentos y material de curación', 3, '2021-03-19 22:33:05'),
+(9, 'Prótesis', 3, '2021-03-19 22:33:05'),
+(10, 'Parte proporcional de vacaciones', 2, '2021-03-19 22:33:05'),
+(11, 'Parte proporcional de prima vacacional', 2, '2021-03-19 22:33:05'),
+(12, 'Parte proporcional de aguinaldo', 2, '2021-03-19 22:33:05'),
+(13, 'Prima de antiguedad', 2, '2021-03-19 22:33:05');
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,8 @@ DROP TABLE IF EXISTS `indemnizacion`;
 CREATE TABLE `indemnizacion` (
   `id` int(11) NOT NULL,
   `motivo` int(11) NOT NULL,
-  `usuario` int(11) NOT NULL
+  `usuario` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -75,17 +77,18 @@ CREATE TABLE `indemnizacion` (
 DROP TABLE IF EXISTS `motivo`;
 CREATE TABLE `motivo` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL
+  `nombre` varchar(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `motivo`
 --
 
-INSERT INTO `motivo` (`id`, `nombre`) VALUES
-(1, 'Quiebre de empresa'),
-(2, 'Renuncia'),
-(3, 'Incapacidades');
+INSERT INTO `motivo` (`id`, `nombre`, `created_at`) VALUES
+(1, 'Quiebre de empresa', '2021-03-19 22:36:39'),
+(2, 'Renuncia', '2021-03-19 22:36:39'),
+(3, 'Incapacidades', '2021-03-19 22:36:39');
 
 -- --------------------------------------------------------
 
@@ -101,24 +104,25 @@ CREATE TABLE `usuario` (
   `puesto` varchar(15) NOT NULL,
   `nss` varchar(11) NOT NULL,
   `salario` double(7,2) NOT NULL,
-  `status` char(1) NOT NULL
+  `status` char(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `appat`, `puesto`, `nss`, `salario`, `status`) VALUES
-(1, 'Aymee', 'Guarneros', 'Administrador', '45879654123', 2000.00, 'A'),
-(2, 'Brenda', 'Candanedo', 'Administrador', '12987465836', 2000.00, 'A'),
-(3, 'Allan', 'Castro', 'Administrador', '65987432015', 2000.00, 'A'),
-(4, 'Jaime', 'Rojas', 'Empleado', '89745632014', 1200.00, 'A'),
-(5, 'Sonia', 'Viveros', 'Empleado', '32145789632', 1200.00, 'A'),
-(6, 'Juan', 'Murrieta', 'Empleado', '41365740324', 1200.00, 'A'),
-(7, 'Natalia', 'Candanedo', 'Empleado', '36547120387', 1200.00, 'A'),
-(8, 'Yael', 'Guarneros', 'Empleado', '78459632102', 1200.00, 'I'),
-(9, 'Patricia', 'Bustos', 'Empleado', '87456321970', 1200.00, 'I'),
-(10, 'Miguel', 'Palacios', 'Empleado', '97630145863', 1200.00, 'I');
+INSERT INTO `usuario` (`id`, `nombre`, `appat`, `puesto`, `nss`, `salario`, `status`, `created_at`) VALUES
+(1, 'Aymee', 'Guarneros', 'Administrador', '45879654123', 2000.00, 'A', '2021-03-19 22:38:42'),
+(2, 'Brenda', 'Candanedo', 'Administrador', '12987465836', 2000.00, 'A', '2021-03-19 22:38:42'),
+(3, 'Allan', 'Castro', 'Administrador', '65987432015', 2000.00, 'A', '2021-03-19 22:38:42'),
+(4, 'Jaime', 'Rojas', 'Empleado', '89745632014', 1200.00, 'A', '2021-03-19 22:38:42'),
+(5, 'Sonia', 'Viveros', 'Empleado', '32145789632', 1200.00, 'A', '2021-03-19 22:38:42'),
+(6, 'Juan', 'Murrieta', 'Empleado', '41365740324', 1200.00, 'A', '2021-03-19 22:38:42'),
+(7, 'Natalia', 'Candanedo', 'Empleado', '36547120387', 1200.00, 'A', '2021-03-19 22:38:42'),
+(8, 'Yael', 'Guarneros', 'Empleado', '78459632102', 1200.00, 'I', '2021-03-19 22:38:42'),
+(9, 'Patricia', 'Bustos', 'Empleado', '87456321970', 1200.00, 'I', '2021-03-19 22:38:42'),
+(10, 'Miguel', 'Palacios', 'Empleado', '97630145863', 1200.00, 'I', '2021-03-19 22:38:42');
 
 --
 -- Índices para tablas volcadas
