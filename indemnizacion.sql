@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-03-2021 a las 23:40:19
+-- Tiempo de generación: 20-03-2021 a las 00:02:14
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.31
 
@@ -64,7 +64,8 @@ DROP TABLE IF EXISTS `indemnizacion`;
 CREATE TABLE `indemnizacion` (
   `id` int(11) NOT NULL,
   `motivo` int(11) NOT NULL,
-  `usuario` int(11) NOT NULL,
+  `empleado` int(11) NOT NULL,
+  `administrador` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -141,7 +142,8 @@ ALTER TABLE `derecho`
 ALTER TABLE `indemnizacion`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ind_mot_fk` (`motivo`),
-  ADD KEY `ind_usu_fk` (`usuario`);
+  ADD KEY `ind_emp_fk` (`empleado`),
+  ADD KEY `ind_adm_fk` (`administrador`);
 
 --
 -- Indices de la tabla `motivo`
@@ -198,8 +200,9 @@ ALTER TABLE `derecho`
 -- Filtros para la tabla `indemnizacion`
 --
 ALTER TABLE `indemnizacion`
-  ADD CONSTRAINT `ind_mot_fk` FOREIGN KEY (`motivo`) REFERENCES `motivo` (`id`),
-  ADD CONSTRAINT `ind_usu_fk` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ind_adm_fk` FOREIGN KEY (`administrador`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `ind_emp_fk` FOREIGN KEY (`empleado`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `ind_mot_fk` FOREIGN KEY (`motivo`) REFERENCES `motivo` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
