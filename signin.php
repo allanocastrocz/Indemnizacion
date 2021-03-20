@@ -30,7 +30,7 @@ $empleados = $queries->GetUsuarios();
   <!-- CSS Local -->
   <style>
     body {
-      font-size: larger;
+      font-size: 25px;
     }
   </style>
 </head>

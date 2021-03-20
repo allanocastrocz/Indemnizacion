@@ -141,7 +141,7 @@ $empleados = $queries->GetUsuarios();
           <div class="row mt-5">
             <div class="col-6">
               <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
-              <select class="form-control" name="user" id="inputUser" style="border-radius: 18px;">
+              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;">
                 <option selected disabled>Selecciona un empleado</option>
                 <?php foreach ($empleados as $empleado) {
                   if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
@@ -164,7 +164,7 @@ $empleados = $queries->GetUsuarios();
                 if (isset($_GET['motivo'])) {
                   $derechos = $queries->GetDerechos($_GET['motivo']);
                   foreach ($derechos as $derecho) { ?>
-                    <li class="text"><?php echo $derecho['derecho']; ?></li>
+                    <li class="text" style="font-size: 20px;"><?php echo $derecho['derecho']; ?></li>
                   <?php }
                 } else { ?>
                   <li class="text-danger">Elige un tipo de indemnización</li>
@@ -180,26 +180,28 @@ $empleados = $queries->GetUsuarios();
           </div>
 
           <!-- Tabla de registros -->
-          <table id="example" class="table table-striped table-bordered mb-5" style="width:100%">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Motivo</th>
-                <th>Empleado</th>
-                <th>Administrador</th>
-                <th>Hora y Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="mb-5">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Motivo</th>
+                  <th>Empleado</th>
+                  <th>Administrador</th>
+                  <th>Hora y Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>Edinburgh</td>
+                  <td>61</td>
+                  <td>2011/04/25</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
         </div>
         <!-- End of Main Content -->
