@@ -127,14 +127,14 @@ $empleados = $queries->GetUsuarios();
               <!-- Formulario para iniciar sesión -->
               <form id="login">
                 <!--Correo electrónico/-->
-                <div class="form-group form-label-group my-5">
+                <div class="form-group form-label-group my-3">
                   <label for="inputEmail">Correo electrónico</label>
                   <input class="form-control" type="email" id="inputEmail" name="email" placeholder="ejemplo@email.com" style="border-radius: 50px;" required />
 
                 </div>
 
                 <!--Contraseña/-->
-                <div class="form-group form-label-group my-5">
+                <div class="form-group form-label-group my-3">
                   <label for="inputCont">Contraseña</label>
                   <input class="form-control" type="password" id="inputCont" name="cont" placeholder="Contraseña" style="border-radius: 50px;" required />
 
