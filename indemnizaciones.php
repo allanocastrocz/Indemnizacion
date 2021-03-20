@@ -1,5 +1,12 @@
+<?php
+include "database/Consultas.php";
+$queries = new Consultas();
+
+$empleados = $queries->GetUsuarios();
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
@@ -105,11 +112,11 @@
 
         <!-- Begin Page Content -->
         <div class="container">
-          <h1>Indemnizaciones</h1>
+          <h1 class="ml-3">Indemnizaciones</h1>
           <div class="row mt-3">
             <div class="col-4">
-              <button type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
-                Quiebre de empresa
+              <button type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
+                Renuncia
               </button>
             </div>
             <div class="col-4">
@@ -118,8 +125,8 @@
               </button>
             </div>
             <div class="col-4">
-              <button type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
-                Renuncia
+              <button type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
+                Quiebre de empresa
               </button>
             </div>
           </div>
@@ -129,9 +136,11 @@
               <label class="ml-3" for="inputUser"><strong>Empleado</strong></label>
               <select class="form-control" name="user" id="inputUser" style="border-radius: 18px;">
                 <option selected disabled>Selecciona un empleado</option>
-                <option value="1">Aymeé</option>
-                <option value="2">Allan</option>
-                <option value="3">Brenda</option>
+                <?php foreach ($empleados as $empleado) {
+                  if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
+                    <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
+                <?php }
+                } ?>
               </select>
             </div>
           </div>
@@ -139,13 +148,16 @@
           <div class="card shadow mt-5">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">Vista previa de los derechos</h6>
+              <h4 class="m-0 font-weight-bold text-primary">Vista previa de los derechos</h4>
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <ul>
-                  <li>1. </li>
-                </ul>
+              <ul>
+                <li>Tres meses de salario</li>
+                <li>Prima de antigüedad</li>
+                <li>Prima vacacional</li>
+                <li>Aguinaldo</li>
+              </ul>
             </div>
           </div>
 

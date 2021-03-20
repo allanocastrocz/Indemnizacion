@@ -1,9 +1,6 @@
 <?php
 if (isset($_POST['email'])) {
-    include('conection.php');
-    // Conecta a la bd
-    $db = new DB();
-    $pdo = $db->connect();
+    include_once('conection.php');
 
     // datos entrantes
     $email = $_POST['email'];
