@@ -96,10 +96,10 @@ $empleados = $queries->GetUsuarios();
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Aymeé Guarneros</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">F</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                  <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z" />
+                  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z" />
                 </svg>
               </a>
               <!-- Dropdown - User Information -->
@@ -116,90 +116,43 @@ $empleados = $queries->GetUsuarios();
 
         <!-- Begin Page Content -->
         <div class="container">
-          <h1 class="ml-3">Indemnizaciones</h1>
-          <div class="row mt-3">
-            <div class="col-4">
-              <a href="indemnizaciones.php?motivo=3" type="button" id="incapacidadBtn" class="btn btn-success shadow btn-lg btn-block 
-              <?php if ($_GET['motivo'] == 3) echo "active"; ?>" style="border-radius: 18px;">
-                Incapacidad
-              </a>
-            </div>
-            <div class="col-4">
-              <a href="indemnizaciones.php?motivo=2" type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block 
-              <?php if ($_GET['motivo'] == 2) echo "active"; ?>" style="border-radius: 18px;">
-                Renuncia
-              </a>
-            </div>
-            <div class="col-4">
-              <a href="indemnizaciones.php?motivo=1" type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block 
-              <?php if ($_GET['motivo'] == 1) echo "active"; ?>" style="border-radius: 18px;">
-                Quiebre de empresa
-              </a>
-            </div>
-          </div>
 
-          <div class="row mt-5">
+
+
+          <div class="row justify-content-md-center mt-5">
             <div class="col-6">
-              <label class="ml-3" for="inputUser"><strong>Empleado</strong></label>
-              <select class="form-control" name="user" id="inputUser" style="border-radius: 18px;">
-                <option selected disabled>Selecciona un empleado</option>
-                <?php foreach ($empleados as $empleado) {
-                  if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
-                    <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
-                <?php }
-                } ?>
-              </select>
+              <div class="text-center texto">
+                <h1 class="ml-3">Inicio de sesión</h1>
+              </div>
+              <!-- Formulario para iniciar sesión -->
+              <form id="login">
+                <!--Correo electrónico/-->
+                <div class="form-group form-label-group my-5">
+                  <label for="inputEmail">Correo electrónico</label>
+                  <input class="form-control" type="email" id="inputEmail" name="email" placeholder="ejemplo@email.com" style="border-radius: 50px;" required />
+
+                </div>
+
+                <!--Contraseña/-->
+                <div class="form-group form-label-group my-5">
+                  <label for="inputCont">Contraseña</label>
+                  <input class="form-control" type="password" id="inputCont" name="cont" placeholder="Contraseña" style="border-radius: 50px;" required />
+
+                </div>
+                <!-- <div class="form-group row"> -->
+                <!--Botón para iniciar sesión-->
+                <div class="col-sm-12 my-5">
+                  <button class="btn btn-block btn-danger text-white btn-user" style="border-radius: 50px;" id="sesionBtn" type="submit">
+                    Inicia sesión
+                  </button>
+                </div>
+                <!-- </div> -->
+              </form>
             </div>
           </div>
 
-          <div class="card shadow mt-5">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h4 class="m-0 font-weight-bold text-primary">Vista previa de los derechos</h4>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-              <ul>
-                <?php
-                if (isset($_GET['motivo'])) {
-                  $derechos = $queries->GetDerechos($_GET['motivo']);
-                  foreach ($derechos as $derecho) { ?>
-                    <li class="text"><?php echo $derecho['derecho']; ?></li>
-                  <?php }
-                } else { ?>
-                  <li class="text-danger">Elige un tipo de indemnización</li>
-                <?php } ?>
-              </ul>
-            </div>
-          </div>
 
-          <div class="d-sm-flex align-items-center justify-content-between my-5">
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-              <i class="fas fa-download fa-sm text-white-50"></i> Generar Indemnización
-            </a>
-          </div>
 
-          <!-- Tabla de registros -->
-          <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Motivo</th>
-                <th>Empleado</th>
-                <th>Administrador</th>
-                <th>Hora y Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-              </tr>
-            </tbody>
-          </table>
 
         </div>
         <!-- End of Main Content -->
