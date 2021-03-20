@@ -1,0 +1,26 @@
+[
+    {
+        "id": 10,
+        "derecho": "Parte proporcional de vacaciones",
+        "motivo": 2,
+        "created_at": "2021-03-19 16:33:05"
+    },
+    {
+        "id": 11,
+        "derecho": "Parte proporcional de prima vacacional",
+        "motivo": 2,
+        "created_at": "2021-03-19 16:33:05"
+    },
+    {
+        "id": 12,
+        "derecho": "Parte proporcional de aguinaldo",
+        "motivo": 2,
+        "created_at": "2021-03-19 16:33:05"
+    },
+    {
+        "id": 13,
+        "derecho": "Prima de antiguedad",
+        "motivo": 2,
+        "created_at": "2021-03-19 16:33:05"
+    }
+]
