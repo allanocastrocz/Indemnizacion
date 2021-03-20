@@ -187,16 +187,16 @@ $empleados = $queries->GetUsuarios();
                 <th>Motivo</th>
                 <th>Empleado</th>
                 <th>Administrador</th>
-                <th>Hora y Fecha</th>
+                <th>Fecha</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
+                <td>1</td>
+                <td>Renuncia</td>
+                <td>Natalia Candanedo</td>
+                <td>Aymee Guarneros</td>
+                <td>2021/03/19</td>
               </tr>
             </tbody>
           </table>
