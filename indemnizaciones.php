@@ -115,19 +115,22 @@ $empleados = $queries->GetUsuarios();
           <h1 class="ml-3">Indemnizaciones</h1>
           <div class="row mt-3">
             <div class="col-4">
-              <button type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
-                Renuncia
-              </button>
-            </div>
-            <div class="col-4">
-              <button type="button" id="incapacidadBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
+              <a href="indemnizaciones.php?motivo=3" type="button" id="incapacidadBtn" class="btn btn-success shadow btn-lg btn-block 
+              <?php if ($_GET['motivo'] == 3) echo "active"; ?>" style="border-radius: 18px;">
                 Incapacidad
-              </button>
+              </a>
             </div>
             <div class="col-4">
-              <button type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block" style="border-radius: 18px;">
+              <a href="indemnizaciones.php?motivo=2" type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block 
+              <?php if ($_GET['motivo'] == 2) echo "active"; ?>" style="border-radius: 18px;">
+                Renuncia
+              </a>
+            </div>
+            <div class="col-4">
+              <a href="indemnizaciones.php?motivo=1" type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block 
+              <?php if ($_GET['motivo'] == 1) echo "active"; ?>" style="border-radius: 18px;">
                 Quiebre de empresa
-              </button>
+              </a>
             </div>
           </div>
 
@@ -153,19 +156,45 @@ $empleados = $queries->GetUsuarios();
             <!-- Card Body -->
             <div class="card-body">
               <ul>
-                <li>Tres meses de salario</li>
-                <li>Prima de antigüedad</li>
-                <li>Prima vacacional</li>
-                <li>Aguinaldo</li>
+                <?php 
+                if (isset($_GET['motivo'])) {
+                  $derechos = $queries->GetDerechos($_GET['motivo']);     
+                  foreach($derechos as $derecho){ ?>
+                  <li class="text"><?php echo $derecho['derecho']; ?></li>
+                  <?php } } else { ?>
+                  <li class="text-danger">Elige un tipo de indemnización</li>
+                <?php } ?>
               </ul>
             </div>
           </div>
 
           <div class="d-sm-flex align-items-center justify-content-between my-5">
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-              <i class="fas fa-download fa-sm text-white-50"></i>Generar Reporte
+              <i class="fas fa-download fa-sm text-white-50"></i> Generar Indemnización
             </a>
           </div>
+
+          <!-- Tabla de registros -->
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Motivo</th>
+                <th>Empleado</th>
+                <th>Administrador</th>
+                <th>Hora y Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+              </tr>
+            </tbody>
+          </table>
 
         </div>
         <!-- End of Main Content -->
@@ -198,6 +227,9 @@ $empleados = $queries->GetUsuarios();
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    <!-- Local -->
+    <script src="js/master.js"></script>
 </body>
 
 </html>
