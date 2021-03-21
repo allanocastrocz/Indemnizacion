@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-03-2021 a las 00:02:14
+-- Tiempo de generación: 20-03-2021 a las 23:14:11
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.2.31
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `indemnizacion`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cuentas`
+--
+
+DROP TABLE IF EXISTS `cuentas`;
+CREATE TABLE `cuentas` (
+  `id` int(11) NOT NULL,
+  `correo` varchar(50) NOT NULL,
+  `contraseña` varchar(255) NOT NULL,
+  `adiminstrador` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -130,6 +144,14 @@ INSERT INTO `usuario` (`id`, `nombre`, `appat`, `puesto`, `nss`, `salario`, `sta
 --
 
 --
+-- Indices de la tabla `cuentas`
+--
+ALTER TABLE `cuentas`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD UNIQUE KEY `cue_cor_uk` (`correo`) USING BTREE,
+  ADD KEY `cue_adm_fk` (`adiminstrador`);
+
+--
 -- Indices de la tabla `derecho`
 --
 ALTER TABLE `derecho`
@@ -163,6 +185,12 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `cuentas`
+--
+ALTER TABLE `cuentas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `derecho`
 --
 ALTER TABLE `derecho`
@@ -189,6 +217,12 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `cuentas`
+--
+ALTER TABLE `cuentas`
+  ADD CONSTRAINT `cue_adm_fk` FOREIGN KEY (`adiminstrador`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `derecho`
