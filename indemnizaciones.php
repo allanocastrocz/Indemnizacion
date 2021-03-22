@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario']))
+    Header("Location: signin.php");
+
 include "database/Consultas.php";
 $queries = new Consultas();
 
@@ -96,7 +100,7 @@ $empleados = $queries->GetUsuarios();
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600" style="font-size: 20px;">Allan Castro</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600" style="font-size: 20px;"><?php echo $_SESSION['usuario']['nombre']; ?></span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                   <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z" />
@@ -104,7 +108,7 @@ $empleados = $queries->GetUsuarios();
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="database/logout.php">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Cerrar sesión
                 </a>
@@ -180,30 +184,6 @@ $empleados = $queries->GetUsuarios();
           </div>
 
           <!-- Tabla de registros -->
-<<<<<<< HEAD
-          <div class="mb-5">
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Motivo</th>
-                  <th>Empleado</th>
-                  <th>Administrador</th>
-                  <th>Hora y Fecha</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-=======
           <table id="example" class="table table-striped table-bordered mb-5" style="width:100%">
             <thead>
               <tr>
@@ -231,7 +211,6 @@ $empleados = $queries->GetUsuarios();
               </tr>
             </tbody>
           </table>
->>>>>>> aa64e07774db98ff0e2946cab02fcc9e62c95034
 
         </div>
         <!-- End of Main Content -->
@@ -261,9 +240,6 @@ $empleados = $queries->GetUsuarios();
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
 
     <!-- Local -->
     <script src="js/master.js"></script>

@@ -1,13 +1,15 @@
 <?php
 if (isset($_POST['email'])) {
-    include_once('conection.php');
+    include_once('conexion.php');
 
     // datos entrantes
     $email = $_POST['email'];
     $password = $_POST['cont'];
 
     /* Ejecuta una sentencia preparada pasando un array de valores */
-    $query = "SELECT cont, id, nivid, apodo, correo FROM usuario WHERE correo = ?";
+    $query = "SELECT * FROM cuentas 
+            JOIN usuario ON cuentas.adiminstrador = usuario.id 
+            WHERE correo = ?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$email]);
 
@@ -18,13 +20,12 @@ if (isset($_POST['email'])) {
         // Datos del usuario en arreglo asociativo
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         // verifica contraseña 
-        if (password_verify($password, $user['cont'])) {
+        if (password_verify($password, $user['pwd'])) {
             // inicia sesión
             session_start();
             // propiedades de la sesión del usuario
-            $_SESSION['usuario']['id'] = $user['id'];
-            $_SESSION['usuario']['nivel'] = $user['nivid'];
-            $_SESSION['usuario']['apodo'] = $user['apodo'];
+            $_SESSION['usuario']['id'] = $user['adiminstrador'];
+            $_SESSION['usuario']['nombre'] = $user['nombre'] . ' ' . $user['appat'];
             $_SESSION['usuario']['correo'] = $user['correo'];
             // respuesta al cliente
             $respuesta['datos_correctos'] = true;

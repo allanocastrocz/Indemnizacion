@@ -27,6 +27,10 @@ $empleados = $queries->GetUsuarios();
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+  <!-- Alertifyjs -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+
   <!-- CSS Local -->
   <style>
     body {
@@ -183,11 +187,48 @@ $empleados = $queries->GetUsuarios();
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+
+    <!-- AlertifyJs -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
     <!-- Local -->
-    <script src="js/master.js"></script>
+    <script>
+      $(document).ready(function() {
+        alertify.set('notifier', 'position', 'top-right');
+
+        $('#login').submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "database/login.php",
+            data: $(this).serialize(),
+            dataType: "JSON",
+            success: function(respuesta) {
+              console.log(respuesta);
+              if (respuesta['datos_correctos'] == false) {
+                alertify.warning('Contraseña incorrecta.');
+              } else {
+                window.location.href = 'index.php';
+              }
+            },
+            error: function(jqXHR, exception, errorThrown) {
+              alertify.error('Ha ocurrido un error al iniciar sesión.');
+              console.log("Error: " + errorThrown);
+            }
+          });
+        });
+      });
+
+      // Obtiene los parámetros GET de la url de la página actual
+      function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+    </script>
 </body>
 
 </html>

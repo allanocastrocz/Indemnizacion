@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `cuentas`;
 CREATE TABLE `cuentas` (
   `id` int(11) NOT NULL,
   `correo` varchar(50) NOT NULL,
-  `contraseña` varchar(255) NOT NULL,
+  `pwd` varchar(255) NOT NULL,
   `adiminstrador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,7 +39,7 @@ CREATE TABLE `cuentas` (
 -- Volcado de datos para la tabla `cuentas`
 --
 
-INSERT INTO `cuentas` (`id`, `correo`, `contraseña`, `adiminstrador`) VALUES
+INSERT INTO `cuentas` (`id`, `correo`, `pwd`, `adiminstrador`) VALUES
 (1, 'aymee.g.r@hotmail.com', '$2y$10$dLacMNG5dTiDJBAdUs5KK.jWp2QO.mb8IQKEMby71sD5BMc3emVXy', 1),
 (2, 'allan.ocastrocruz@gmail.com', '$2y$10$dLacMNG5dTiDJBAdUs5KK.jWp2QO.mb8IQKEMby71sD5BMc3emVXy', 3),
 (3, 'brenda_candanedo@gmail.com', '$2y$10$dLacMNG5dTiDJBAdUs5KK.jWp2QO.mb8IQKEMby71sD5BMc3emVXy', 2);
