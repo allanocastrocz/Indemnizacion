@@ -33,9 +33,9 @@ $empleados = $queries->GetUsuarios();
 
   <!-- CSS Local -->
   <style>
-    body {
+    /* body {
       font-size: 25px;
-    }
+    } */
   </style>
 </head>
 
@@ -99,8 +99,8 @@ $empleados = $queries->GetUsuarios();
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
-              <a class="nav-link " href="#" id="userDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">F</span>
+              <a class="nav-link " href="#" id="userDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600">F</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                   <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z" />
@@ -119,36 +119,52 @@ $empleados = $queries->GetUsuarios();
           <div class="row justify-content-md-center mt-5">
             <div class="col-6">
               <div class="text-center texto">
-                <h1 class="ml-3">Inicio de sesión</h1>
+                <h1 class="ml-3">Registro de usuario</h1>
               </div>
               <!-- Formulario para iniciar sesión -->
-              <form id="login">
+              <form id="signup">
                 <!--Correo electrónico/-->
                 <div class="form-group form-label-group my-3">
                   <label for="inputEmail">Correo electrónico</label>
                   <input class="form-control" type="email" id="inputEmail" name="email" placeholder="ejemplo@email.com" style="border-radius: 50px;" required />
+                  <div class="invalid-feedback">Formato correcto: algo@dominio.extension</div>
+                </div>
 
+                <!--Nombre/-->
+                <div class="form-group form-label-group my-3">
+                  <label for="inputCont">Nombre</label>
+                  <input class="form-control" type="text" id="inputNombre" name="nombre" placeholder="Nombre" style="border-radius: 50px;" required />
+                  <div class="invalid-feedback">No usar caracteres especiales</div>
+                </div>
+
+                <!--Nombre/-->
+                <div class="form-group form-label-group my-3">
+                  <label for="inputCont">Apellido</label>
+                  <input class="form-control" type="text" id="inputApellido" name="appat" placeholder="Apellido" style="border-radius: 50px;" required />
+                  <div class="invalid-feedback">No usar caracteres especiales</div>
                 </div>
 
                 <!--Contraseña/-->
                 <div class="form-group form-label-group my-3">
                   <label for="inputCont">Contraseña</label>
                   <input class="form-control" type="password" id="inputCont" name="cont" placeholder="Contraseña" style="border-radius: 50px;" required />
-
+                  <div class="invalid-feedback">Formato correcto: Mínimo 6 caracteres; alternar entre números, mayúsculas y minúsculas</div>
                 </div>
-                <!-- <div class="form-group row"> -->
+
+                <!-- Repetir Contraseña/-->
+                <div class="form-group form-label-group my-3">
+                  <label for="inputCont">Repetir contraseña</label>
+                  <input class="form-control" type="password" id="inputRepCont" name="repcont" placeholder="Confirmar contraseña" style="border-radius: 50px;" required />
+                  <div class="invalid-feedback">Las contraseñas no coinciden</div>
+                </div>
+
                 <!--Botón para iniciar sesión-->
                 <div class="col-sm-12 my-5">
                   <button class="btn btn-block btn-danger text-white btn-user" style="border-radius: 50px;" id="sesionBtn" type="submit">
-                    Inicia sesión
+                    Registrarse
                   </button>
                 </div>
               </form>
-              <!-- Divider -->
-              <hr class="sidebar-divider" />
-              <div class="text-center texto">
-                <a href="signup.php" class="ml-3" style="font-size: medium;" >Crear cuenta</a>
-              </div>
             </div>
           </div>
 
@@ -189,31 +205,82 @@ $empleados = $queries->GetUsuarios();
 
     <!-- Local -->
     <script>
+      email_valid = false;
+      nombre_valid = false;
+      apellido_valid = false;
+      cont_valid = false;
+      repcont_valid = false;
+
       $(document).ready(function() {
         alertify.set('notifier', 'position', 'top-right');
+        const re_especiales = /^[_A-z0-9 ]*((-|s)*[_A-z0-9 ])*$/;
+        const re_email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const re_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
 
-        $('#login').submit(function(event) {
+        $('#inputEmail').on('blur', function() {
+          email_valid = validateInput($('#inputEmail'), re_email);
+          console.log(email_valid);
+        });
+
+        $('#inputNombre').on('blur', function() {
+          nombre_valid = validateInput($('#inputNombre'), re_especiales);
+        });
+
+        $('#inputApellido').on('blur', function() {
+          apellido_valid = validateInput($('#inputApellido'), re_especiales);
+        });
+
+        $('#inputCont').on('blur', function() {
+          cont_valid = validateInput($('#inputCont'), re_pwd);
+        });
+
+        $('#inputRepCont').on('blur', function() {
+          input = $('#inputRepCont');
+          if ($('#inputCont').val() != $('#inputRepCont').val()) {
+            input.addClass("is-invalid");
+            repcont_valid = false;
+          } else {
+            input.removeClass("is-invalid");
+            repcont_valid = true;
+          }
+        });
+
+        $('#signup').submit(function(event) {
           event.preventDefault();
-          $.ajax({
-            type: "POST",
-            url: "database/login.php",
-            data: $(this).serialize(),
-            dataType: "JSON",
-            success: function(respuesta) {
-              console.log(respuesta);
-              if (respuesta['datos_correctos'] == false) {
-                alertify.warning('Contraseña incorrecta.');
-              } else {
-                window.location.href = 'index.php';
+          if (email_valid && nombre_valid && apellido_valid && cont_valid && repcont_valid) {
+            $.ajax({
+              type: "POST",
+              url: "database/agregar-user.php",
+              data: $(this).serialize(),
+              dataType: "JSON",
+              success: function(respuesta) {
+                console.log(respuesta);
+                if (!respuesta['status']) {
+                  alertify.warning('No se pudo registrar.');
+                } else {
+                  window.location.href = 'index.php';
+                }
+              },
+              error: function(jqXHR, exception, errorThrown) {
+                alertify.error('Ha ocurrido un error al registrar el nuevo usuario.');
+                console.log("Error: " + errorThrown);
               }
-            },
-            error: function(jqXHR, exception, errorThrown) {
-              alertify.error('Ha ocurrido un error al iniciar sesión.');
-              console.log("Error: " + errorThrown);
-            }
-          });
+            });
+          } else {
+            alertify.warning('Completa correctamente el formulario.');
+          }
         });
       });
+
+      function validateInput(input, re) {
+        if (!re.test(input.val())) {
+          input.addClass("is-invalid");
+          return false;
+        } else {
+          input.removeClass("is-invalid");
+          return true;
+        }
+      }
 
       // Obtiene los parámetros GET de la url de la página actual
       function getParameterByName(name, url = window.location.href) {

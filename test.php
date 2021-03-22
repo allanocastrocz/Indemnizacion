@@ -3,6 +3,6 @@
 include "database/Consultas.php"; 
 $queries = new Consultas();
 
-$empleados = $queries->GetDerechos(1);
+$empleados = $queries->GetAdminNames();
 
 echo json_encode($empleados);

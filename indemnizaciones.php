@@ -1,12 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario']))
-    Header("Location: signin.php");
+  Header("Location: signin.php");
 
 include "database/Consultas.php";
 $queries = new Consultas();
 
 $empleados = $queries->GetUsuarios();
+$admins = $queries->GetAdminNames();
+$registros = $queries->GetIndemnizaciones();
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +32,10 @@ $empleados = $queries->GetUsuarios();
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+  <!-- Alertifyjs -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
   <!-- CSS Local -->
   <style>
@@ -141,11 +147,10 @@ $empleados = $queries->GetUsuarios();
               </a>
             </div>
           </div>
-
           <div class="row mt-5">
             <div class="col-6">
               <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
-              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;">
+              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;" required>
                 <option selected disabled>Selecciona un empleado</option>
                 <?php foreach ($empleados as $empleado) {
                   if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
@@ -177,8 +182,10 @@ $empleados = $queries->GetUsuarios();
             </div>
           </div>
 
+          <input type="text" id="idAdmin" value="<?php echo $_SESSION['usuario']['id']; ?>" style="display: none;">
+
           <div class="d-sm-flex align-items-center justify-content-between my-5">
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <a href="#" id="btnIndemnizacion" type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
               <i class="fas fa-download fa-sm text-white-50"></i> Generar Indemnización
             </a>
           </div>
@@ -195,20 +202,16 @@ $empleados = $queries->GetUsuarios();
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Renuncia</td>
-                <td>Natalia Candanedo</td>
-                <td>Aymee Guarneros</td>
-                <td>2021/03/19</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Incapacidad</td>
-                <td>Sonia Viveros</td>
-                <td>Allan Castro</td>
-                <td>2021/03/19</td>
-              </tr>
+              <?php foreach ($registros as $i => $reg) {
+                $fecha = new DateTime($reg['fecha']); ?>
+                <tr>
+                  <td><?php echo $reg['id']; ?></td>
+                  <td><?php echo $reg['motivo']; ?></td>
+                  <td><?php echo $reg['nom_emp']; ?></td>
+                  <td><?php echo $reg['nom_admin']; ?></td>
+                  <td><?php echo  $fecha->format('Y-m-d'); ?></td>
+                </tr>
+              <?php } ?>
             </tbody>
           </table>
 
@@ -241,8 +244,76 @@ $empleados = $queries->GetUsuarios();
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- AlertifyJs -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
     <!-- Local -->
-    <script src="js/master.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Propiedades de AlertifyJS
+        alertify.set('notifier', 'position', 'top-right');
+
+        // Inicializa la tabla
+        $('#example').DataTable({
+          scrollX: true,
+          language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+          }
+        });
+
+        // Función OnClick del botón Generar Indemnización
+        $(document).on("click", "#btnIndemnizacion", function(e) {
+          var motivo = getParameterByName('motivo');
+          var empleado = $('#inputUser').val();
+          var admin = $('#idAdmin').val();
+          console.log(admin);
+
+          if (motivo == null) {
+            alertify.error('Elige un motivo de indemnización');
+          } else if (empleado == null) {
+            alertify.error('Elige un empleado');
+          } else {
+            var formulario = new FormData();
+            formulario.append('motivo', motivo);
+            formulario.append('empleado', empleado);
+            formulario.append('admin', admin);
+
+            $.ajax({
+              type: "POST",
+              url: "database/registrar.php",
+              data: formulario,
+              processData: false,
+              contentType: false,
+              dataType: "JSON",
+              success: function(respuesta) {
+                if (!respuesta['status']) {
+                  alertify.error('Ha ocurrido un error al registrar.');
+                } else {
+                  window.location.href = 'indemnizaciones.php';
+                }
+              },
+              error: function(jqXHR, exception, errorThrown) {
+                alertify.error('No se ha podido contactar al servidor.');
+                console.log("Error: " + errorThrown);
+              }
+            });
+          }
+
+        });
+
+      });
+
+
+      // Obtiene los parámetros GET de la url de la página actual
+      function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+    </script>
 </body>
 
 </html>
