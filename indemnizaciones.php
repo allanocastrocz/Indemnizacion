@@ -147,19 +147,6 @@ $registros = $queries->GetIndemnizaciones();
               </a>
             </div>
           </div>
-          <div class="row mt-5">
-            <div class="col-6">
-              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
-              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;" required>
-                <option selected disabled>Selecciona un empleado</option>
-                <?php foreach ($empleados as $empleado) {
-                  if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
-                    <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
-                <?php }
-                } ?>
-              </select>
-            </div>
-          </div>
 
           <div class="card shadow mt-5">
             <!-- Card Header - Dropdown -->
@@ -179,6 +166,30 @@ $registros = $queries->GetIndemnizaciones();
                   <li class="text-danger">Elige un tipo de indemnización</li>
                 <?php } ?>
               </ul>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-4">
+              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
+              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;" required>
+                <option selected disabled>Selecciona un empleado</option>
+                <?php foreach ($empleados as $empleado) {
+                  if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
+                    <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
+                <?php }
+                } ?>
+              </select>
+            </div>
+
+            <div class="col-4">
+              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Calcular pago</strong></label>
+              <input id="inputSueldo" type="number" placeholder="Ingresa el salario mensual" class="form-control" style="font-size:large; border-radius: 18px;">
+            </div>
+
+            <div class="col-4">
+              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Total</strong></label>
+              <input id="outputTotal" type="text" value="0.00" readonly class="form-control" style="font-size:large; border-radius: 18px;">
             </div>
           </div>
 
@@ -253,6 +264,10 @@ $registros = $queries->GetIndemnizaciones();
         // Propiedades de AlertifyJS
         alertify.set('notifier', 'position', 'top-right');
 
+        // atributos
+        var admin = $('#idAdmin').val();
+
+
         // Inicializa la tabla
         $('#example').DataTable({
           scrollX: true,
@@ -261,12 +276,54 @@ $registros = $queries->GetIndemnizaciones();
           }
         });
 
+
+        $('#inputSueldo').on('blur', function() {
+          calcularTotal();
+        });
+
+
+
+        $('#inputSueldo').bind('change keyup', function() {
+          calcularTotal();
+        });
+
+        function calcularTotal() {
+          // atributos
+          motivo = getParameterByName('motivo');
+          empleado = $('#inputUser').val();
+          salario = $('#inputSueldo').val();
+
+          if (motivo == null) {
+            alertify.error('Elige un motivo de indemnización').dismissOthers();
+          } else if (empleado == null) {
+            alertify.error('Elige un empleado').dismissOthers();
+          } else {
+            var salida;
+
+            switch (parseInt(motivo)) {
+              case 1:
+                salida = ((salario / 30) * 12 * 2) + salario * 3 + salario * .2;
+                break;
+
+              case 2:
+                salida = ((salario / 30) * 12 * 1) + salario + salario * .2;
+                break;
+
+              case 3:
+                salida = salario * (2 / 3);
+                break;
+            }
+            salida = parseFloat(salida).toFixed(2);
+            $('#outputTotal').val('$' + salida);
+          }
+
+
+        }
+
         // Función OnClick del botón Generar Indemnización
         $(document).on("click", "#btnIndemnizacion", function(e) {
           var motivo = getParameterByName('motivo');
           var empleado = $('#inputUser').val();
-          var admin = $('#idAdmin').val();
-          console.log(admin);
 
           if (motivo == null) {
             alertify.error('Elige un motivo de indemnización');
