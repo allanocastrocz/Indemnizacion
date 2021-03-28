@@ -127,7 +127,7 @@ $registros = $queries->GetIndemnizaciones();
         <!-- Begin Page Content -->
         <div class="container">
           <h1 class="ml-3">Indemnizaciones</h1>
-          <div class="row mt-3">
+          <div class="row mt-3 align-items-center">
             <div class="col-4">
               <a href="indemnizaciones.php?motivo=3" type="button" id="incapacidadBtn" class="btn btn-success shadow btn-lg btn-block 
               <?php if ($_GET['motivo'] == 3) echo "active"; ?>" style="border-radius: 18px;">
@@ -141,68 +141,84 @@ $registros = $queries->GetIndemnizaciones();
               </a>
             </div>
             <div class="col-4">
-              <a href="indemnizaciones.php?motivo=1" type="button" id="quiebreBtn" class="btn btn-success shadow btn-lg btn-block 
+              <a href="indemnizaciones.php?motivo=1" type="button" id="quiebreBtn" class="btn btn-success bg-gradient shadow btn-lg btn-block 
               <?php if ($_GET['motivo'] == 1) echo "active"; ?>" style="border-radius: 18px;">
                 Quiebre de empresa
               </a>
             </div>
           </div>
 
-          <div class="card shadow mt-5">
+          <div class="card shadow-md mt-3">
             <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h4 class="m-0 font-weight-bold text-primary">Vista previa de los derechos</h4>
+            <div class="card-header">
+              <h4 class="m-0 font-weight-bold text-info">Vista previa de los derechos</h4>
             </div>
             <!-- Card Body -->
-            <div class="card-body">
-              <ul>
-                <?php
-                if (isset($_GET['motivo'])) {
-                  $derechos = $queries->GetDerechos($_GET['motivo']);
-                  foreach ($derechos as $derecho) { ?>
-                    <li class="text" style="font-size: 20px;"><?php echo $derecho['derecho']; ?></li>
-                  <?php }
-                } else { ?>
-                  <li class="text-danger">Elige un tipo de indemnización</li>
-                <?php } ?>
-              </ul>
+            <div class="card-body py-0" style="font-size: 15px;">
+              <table id="tablaDerechos" class="table mb-0">
+                <tbody>
+                  <?php
+                  if (isset($_GET['motivo'])) {
+                    $derechos = $queries->GetDerechos($_GET['motivo']);
+                    foreach ($derechos as $derecho) { ?>
+                      <tr id="<?php echo $derecho['id']; ?>">
+                        <td class="text"><?php echo $derecho['derecho']; ?></td>
+                      </tr>
+                    <?php }
+                  } else { ?>
+                    <tr>
+                      <td class="text-danger" style="font-size: 20px;">Elige un tipo de indemnización</td>
+                    </tr>
+                  <?php } ?>
+
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div class="row mt-5">
-            <div class="col-4">
-              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
-              <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;" required>
-                <option selected disabled>Selecciona un empleado</option>
-                <?php foreach ($empleados as $empleado) {
-                  if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
-                    <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
-                <?php }
-                } ?>
-              </select>
+          <div class="card shadow-md mt-3">
+            <div class="card-header">
+              <h4 class="m-0 font-weight-bold text-info">Cálculo de pago de indemnización</h4>
             </div>
+            <div class="card-body">
+              <form id"></form>
+              <div class="row">
+                <div class="col-4">
+                  <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Empleado</strong></label>
+                  <select class="form-control" name="user" id="inputUser" style="font-size:large; border-radius: 18px;" required>
+                    <option selected disabled>Selecciona un empleado</option>
+                    <?php foreach ($empleados as $empleado) {
+                      if ($empleado['puesto'] == 'Empleado' &&  $empleado['status'] == 'A') { ?>
+                        <option value="<?php echo $empleado['id']; ?>"><?php echo $empleado['nombre']; ?> <?php echo $empleado['appat']; ?></option>
+                    <?php }
+                    } ?>
+                  </select>
+                </div>
 
-            <div class="col-4">
-              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Calcular pago</strong></label>
-              <input id="inputSueldo" type="number" placeholder="Ingresa el salario mensual" class="form-control" style="font-size:large; border-radius: 18px;">
-            </div>
+                <div class="col-4">
+                  <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Salario</strong></label>
+                  <input id="inputSueldo" type="number" placeholder="Salario mensual" class="form-control" style="font-size:large; border-radius: 18px;">
+                </div>
 
-            <div class="col-4">
-              <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Total</strong></label>
-              <input id="outputTotal" type="text" value="0.00" readonly class="form-control" style="font-size:large; border-radius: 18px;">
+                <div class="col-4">
+                  <label class="ml-3" for="inputUser" style="font-size: 25px;"><strong>Pago</strong></label>
+                  <input id="outputTotal" type="text" value="0.00" readonly class="form-control" style="font-size:large; border-radius: 18px;">
+                </div>
+              </div>
+              <a id="btnCalcular" class="btn btn-info mt-3">Calcular</a>
             </div>
           </div>
 
           <input type="text" id="idAdmin" value="<?php echo $_SESSION['usuario']['id']; ?>" style="display: none;">
 
-          <div class="d-sm-flex align-items-center justify-content-between my-5">
-            <a href="#" id="btnIndemnizacion" type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+          <div class="row  justify-content-center my-5">
+            <a href="#" id="btnIndemnizacion" type="submit" class="d-none d-sm-inline-block btn-lg btn-primary shadow-md">
               <i class="fas fa-download fa-sm text-white-50"></i> Generar Indemnización
             </a>
           </div>
 
           <!-- Tabla de registros -->
-          <table id="example" class="table table-striped table-bordered mb-5" style="width:100%">
+          <table id="example" class="table table-striped table-bordered mb-3" style="width:100%">
             <thead>
               <tr>
                 <th>ID</th>
@@ -267,6 +283,97 @@ $registros = $queries->GetIndemnizaciones();
         // atributos
         var admin = $('#idAdmin').val();
 
+        $('#btnCalcular').on('click', function() {
+          var motivo = getParameterByName('motivo');
+          var formData = new FormData();
+          var salario = $('#inputSueldo').val();
+
+          formData.append('motivo', motivo);
+          formData.append('querie', 'derechos');
+          if (salario != null) {
+            $.ajax({
+              type: "POST",
+              url: "database/client-queries.php",
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: 'JSON',
+              success: function(data) {
+                // console.log(data);
+                if (data['estatus'] == true) {
+                  var table = document.getElementById("tablaDerechos");
+                  console.log($('table tbody'));
+                  var total = 0;
+
+                  for (let index = 0; index < data['valores'].length; index++) {
+                    var id = data['valores'][index]['id'];
+                    monto = calculaDerecho(salario, id);
+                    total += monto;
+                    $('#' + id).append("<td>$" + monto + "</td>");
+                    console.log(total);
+                  }
+                  $('#outputTotal').val('$' + total);
+
+                } else {
+                  console.debug(data['msg']);
+                }
+              },
+              error: function(jqXHR, exception, errorThrown) {
+                console.debug("Error: " + errorThrown);
+              }
+            });
+          } else {
+            alertify.warning("Ingresa primero un salario");
+          }
+        });
+
+        function calculaDerecho(salario, idder) {
+          switch (idder) {
+            case 1:
+              return salario * 3
+              break;
+            case 2:
+              return (salario / 30) * 12 * 3;
+              break;
+            case 3:
+              return (salario * .25) * 6;
+              break;
+            case 4:
+              return (salario * .5)
+              break;
+            case 5:
+              return 5000;
+              break;
+            case 6:
+              return 4000;
+              break;
+            case 7:
+              return 3000;
+              break;
+              return 3000;
+            case 8:
+              return 2000;
+              break;
+            case 9:
+              return 10000;
+              break;
+            case 10:
+              return (salario / 30) * 3;
+              break;
+            case 11:
+              return (salario * .25) * 6;
+              break;
+            case 12:
+              return (salario * .5);
+              break;
+            case 13:
+              return (salario / 30) * 12 * 3;
+              break;
+
+          }
+        }
+
 
         // Inicializa la tabla
         $('#example').DataTable({
@@ -274,17 +381,6 @@ $registros = $queries->GetIndemnizaciones();
           language: {
             url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
           }
-        });
-
-
-        $('#inputSueldo').on('blur', function() {
-          calcularTotal();
-        });
-
-
-
-        $('#inputSueldo').bind('change keyup', function() {
-          calcularTotal();
         });
 
         function calcularTotal() {
