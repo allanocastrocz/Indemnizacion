@@ -7,9 +7,6 @@
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,8 +17,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `indemnizacion`
 --
-CREATE DATABASE IF NOT EXISTS `indemnizacion` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
-USE `indemnizacion`;
+USE `samuari1_indemnizacion`;
 
 -- --------------------------------------------------------
 

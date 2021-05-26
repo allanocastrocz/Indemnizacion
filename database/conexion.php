@@ -10,7 +10,7 @@ class DB
     public function __construct()
     {
         $this->host     = '162.241.60.205;port=3306'; // se asigna el valor al atributo host
-        $this->db       = 'samurai1_bsc'; // se asigna el valor al atributo db
+        $this->db       = 'samuari1_indemnizacion'; // se asigna el valor al atributo db
         $this->user     = "samurai1_admin"; // se asigna el valor al atributo user
         $this->password = "admineljale"; // se asigna el valor al atributo password
     }
