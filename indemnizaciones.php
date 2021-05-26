@@ -15,8 +15,7 @@ $registros = $queries->GetIndemnizaciones();
 <html lang="es">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- <meta charset="utf-8" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -126,24 +125,35 @@ $registros = $queries->GetIndemnizaciones();
 
         <!-- Begin Page Content -->
         <div class="container">
-          <h1 class="ml-3">Indemnizaciones</h1>
+          <div class="row justify-content-between mb-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Logo-TecNM-2017.png" style="max-height: 100px;" alt="">
+            <h1>Indemnizaciones</h1>
+            <img src="https://www.lajornadadeoriente.com.mx/wp-content/uploads/2017/11/logo-itpuebla-1.png" style="max-height: 100px;" alt="">
+          </div>
+
           <div class="row mt-3 align-items-center">
-            <div class="col-4">
+            <div class="col-3">
               <a href="indemnizaciones.php?motivo=3" type="button" id="incapacidadBtn" class="btn btn-success shadow btn-lg btn-block 
               <?php if ($_GET['motivo'] == 3) echo "active"; ?>" style="border-radius: 18px;">
                 Incapacidad
               </a>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <a href="indemnizaciones.php?motivo=2" type="button" id="renunciaBtn" class="btn btn-success shadow btn-lg btn-block 
               <?php if ($_GET['motivo'] == 2) echo "active"; ?>" style="border-radius: 18px;">
                 Renuncia
               </a>
             </div>
-            <div class="col-4">
+            <div class="col-3">
               <a href="indemnizaciones.php?motivo=1" type="button" id="quiebreBtn" class="btn btn-success bg-gradient shadow btn-lg btn-block 
               <?php if ($_GET['motivo'] == 1) echo "active"; ?>" style="border-radius: 18px;">
                 Quiebre de empresa
+              </a>
+            </div>
+            <div class="col-3">
+              <a href="indemnizaciones.php?motivo=4" type="button" id="liquidacionBtn" class="btn btn-success shadow btn-lg btn-block 
+              <?php if ($_GET['motivo'] == 4) echo "active"; ?>" style="border-radius: 18px;">
+                Liquidación
               </a>
             </div>
           </div>
@@ -163,6 +173,7 @@ $registros = $queries->GetIndemnizaciones();
                     foreach ($derechos as $derecho) { ?>
                       <tr id="<?php echo $derecho['id']; ?>">
                         <td class="text"><?php echo $derecho['derecho']; ?></td>
+                        <td class="text"><?php echo $derecho['descrip']; ?></td>
                       </tr>
                     <?php }
                   } else { ?>
@@ -245,8 +256,21 @@ $registros = $queries->GetIndemnizaciones();
         </div>
         <!-- End of Main Content -->
 
+        <hr class="sidebar-divider my-3">
 
-        <!-- End of Footer -->
+        <footer class="mt-auto text-dark-50 ">
+          <div class="row justify-content-center">
+            <h5>Autores:</h5>
+            <ul>
+              <li>Candanedo Cruz Brenda Jannine</li>
+              <li>Castro Cruz Allan Octavio</li>
+              <li>Guarneros Rojas Aymeé</li>
+              <li>Parra Victorino José Bernardo</li>
+
+            </ul>
+          </div>
+        </footer>
+
       </div>
       <!-- End of Content Wrapper -->
     </div>
@@ -303,12 +327,12 @@ $registros = $queries->GetIndemnizaciones();
                 // console.log(data);
                 if (data['estatus'] == true) {
                   var table = document.getElementById("tablaDerechos");
-                  console.log($('table tbody'));
                   var total = 0;
+                  var antig = Math.floor(Math.random() * 5) + 1;
 
                   for (let index = 0; index < data['valores'].length; index++) {
                     var id = data['valores'][index]['id'];
-                    monto = calculaDerecho(salario, id);
+                    monto = calculaDerecho(salario, id, antig);
                     total += monto;
                     $('#' + id).append("<td>$" + monto + "</td>");
                     console.log(total);
@@ -328,19 +352,19 @@ $registros = $queries->GetIndemnizaciones();
           }
         });
 
-        function calculaDerecho(salario, idder) {
+        function calculaDerecho(salario, idder, antig) {
           switch (idder) {
             case 1:
               return salario * 3
               break;
             case 2:
-              return (salario / 30) * 12 * 3;
+              return (salario / 30) * 12 * antig;
               break;
             case 3:
               return (salario * .25) * 6;
               break;
             case 4:
-              return (salario * .5)
+              return (salario / 30) * 15
               break;
             case 5:
               return 5000;
@@ -365,10 +389,19 @@ $registros = $queries->GetIndemnizaciones();
               return (salario * .25) * 6;
               break;
             case 12:
-              return (salario * .5);
+              return (salario / 30) * 15;
               break;
             case 13:
-              return (salario / 30) * 12 * 3;
+              return (salario / 30) * 12 * antig;
+              break;
+              case 17:
+              return salario * 3;
+              break;
+            case 18:
+              return (salario / 30) * 20;
+              break;
+            case 19:
+              return (salario / 30) * 12 * antig;
               break;
 
           }

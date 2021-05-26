@@ -118,6 +118,8 @@ $empleados = $queries->GetUsuarios();
 
           <div class="row justify-content-md-center mt-5">
             <div class="col-6">
+              <p>Usuario: prueba@email.com</p>
+              <p>Contraseña: qwe123asd</p>
               <div class="text-center texto">
                 <h1 class="ml-3">Inicio de sesión</h1>
               </div>
