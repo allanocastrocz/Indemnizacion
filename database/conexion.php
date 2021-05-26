@@ -8,11 +8,11 @@ class DB
     private $charset; // atributo $charset
 
     public function __construct()
-    { // se crea el metodo constructor
-        $this->host     = 'localhost'; // se asigna el valor al atributo host
-        $this->db       = 'indemnizacion'; // se asigna el valor al atributo db
-        $this->user     = "root"; // se asigna el valor al atributo user
-        $this->password = ""; // se asigna el valor al atributo password
+    {
+        $this->host     = '162.241.60.205;port=3306'; // se asigna el valor al atributo host
+        $this->db       = 'samurai1_bsc'; // se asigna el valor al atributo db
+        $this->user     = "samurai1_admin"; // se asigna el valor al atributo user
+        $this->password = "admineljale"; // se asigna el valor al atributo password
     }
 
     function connect()
